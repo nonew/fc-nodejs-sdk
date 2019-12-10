@@ -16,7 +16,7 @@ var querystring = require('querystring');
 var crypto = require('crypto');
 
 var httpx = require('httpx');
-var kitx = require('kitx');
+// var kitx = require('kitx');
 var debug = require('debug')('lambda');
 var pkg = require('../package.json');
 var helper = require('./helper');
@@ -134,7 +134,10 @@ var Client = function () {
                     buff = new Buffer(JSON.stringify(body), 'utf8');
                     headers['content-type'] = 'application/json';
                   }
-                  digest = kitx.md5(buff, 'hex');
+                  // digest = kitx.md5(buff, 'hex');
+                  var shasum = crypto.createHash('md5');
+                  shasum.update(buff);
+                  digest = shasum.digest('hex');
                   md5 = new Buffer(digest, 'utf8').toString('base64');
 
                   headers['content-length'] = buff.length;
